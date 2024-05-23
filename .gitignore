@@ -154,3 +154,7 @@ for_test.py
 data/.env
 .backup/
 /cloc-1.64.exe
+
+.venv
+.history
+fcb-frontend/dist

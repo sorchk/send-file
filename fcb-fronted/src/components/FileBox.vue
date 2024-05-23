@@ -27,7 +27,7 @@ const route = useRoute();
 const copyText = (text: any, style = 0) => {
   ElMessage.success(t('fileBox.copySuccess'));
   if (style === 1) {
-    text = window.location.origin + '/#/?code=' + text;
+    text = window.location.origin + '/' + text;
   }
   const temp: any = document.createElement('textarea');
   temp.value = text;

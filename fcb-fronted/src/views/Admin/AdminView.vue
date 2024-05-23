@@ -3,7 +3,6 @@
     <el-header>
       <el-menu mode="horizontal" router :default-active="route.path">
         <el-menu-item v-for="menu in menus" :index="menu.path" :key="menu.path">{{menu.name}}</el-menu-item>
-        <el-menu-item style="float: right" @click="toggleDark(!isDark)">{{ t('admin.menu.color') }}</el-menu-item>
         <el-menu-item style="float: right" @click="adminData.updateAdminPwd('');isLogin=false">{{ t('admin.menu.signout') }}</el-menu-item>
       </el-menu>
     </el-header>
@@ -51,8 +50,8 @@ const menus = ref([
     path: '/admin/setting',
   },
   {
-    name: t('admin.menu.about'),
-    path: '/admin/about',
+    name: t('send.title'),
+    path: '/send',
   }
 ]);
 const refreshLoginStatus = () => {

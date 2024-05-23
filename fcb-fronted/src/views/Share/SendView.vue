@@ -1,22 +1,44 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useAdminData } from "@/stores/adminData";
 import CardTools from "@/components/CardTools.vue";
 import UploadFile from "@/components/UploadFile.vue";
 import UploadText from "@/components/UploadText.vue";
 
 import { useI18n } from 'vue-i18n'
+import { request } from "@/utils/request";
+import { ElMessage } from "element-plus";
 
+const isLogin = ref(false);
 const { t } = useI18n()
+const adminData = useAdminData();
 const shareData = ref({
   expireValue: 1,
   expireStyle: 'day',
   targetType: 'file',
 })
+const refreshLoginStatus = () => {
+  adminData.updateAdminPwd(adminData.adminPassword);
+  request({
+    url: '/admin/login',
+    method: 'post',
+  }).then((res: any) => {
+    if (res.code === 200) {
+      isLogin.value = true;
+      ElMessage.success(t('admin.login.loginSuccess'));
+    } else {
+      ElMessage.error(t('admin.login.loginError'));
+    }
+  });
+};
+if (adminData.adminPassword !== '') {
+  refreshLoginStatus();
+}
 </script>
 
 <template>
   <main>
-    <el-card class="card" style="position: relative" :body-style="{ padding: '0' }">
+    <el-card v-if="isLogin" class="card" style="position: relative" :body-style="{ padding: '0' }">
       <card-tools style="padding: 1rem"/>
       <div style="display: flex;margin: 1rem">
         <div>
@@ -57,5 +79,19 @@ const shareData = ref({
         <upload-text :shareData="shareData" v-else-if="shareData.targetType=='text'"/>
       </div>
     </el-card>
+
+    <el-form size="large" v-else>
+      <el-form-item :label="t('admin.login.managePassword')">
+        <el-input
+            v-model="adminData.adminPassword"
+            :placeholder="t('admin.login.passwordNotEmpty')"
+            type="password"
+        >
+          <template #append>
+            <el-button @click="refreshLoginStatus">{{ t('admin.login.login') }}</el-button>
+          </template>
+        </el-input>
+      </el-form-item>
+    </el-form>
   </main>
 </template>

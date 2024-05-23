@@ -28,9 +28,9 @@ const noDialog = ()=>{
 }
 const { t } = useI18n()
 onMounted(() => {
-  const query_code = route.query.code as string;
-  if (query_code) {
-    code.value = query_code
+  const codex = route.path.substring(1);
+  if (/^[0-9]{5}$/.test(codex)) {
+    code.value = codex
   }
 })
 watch(code, (newVal) => {
@@ -96,9 +96,6 @@ const url = atob('aHR0cHM6Ly9naXRodWIuY29tL3Zhc3RzYS9GaWxlQ29kZUJveA==');
         </el-row>
       </el-card>
       <div style="text-align: center; margin-top: 1rem;color: #606266">
-        <a style="text-decoration: none;color: #606266" target="_blank" :href="url">
-          {{ name}}
-        </a>
         <a @click="noDialog" style="text-decoration: none;color: #606266;margin-left: 1rem" href="javascript:void(0)">{{t('send.mzsm')}}</a>
       </div>
     </main>
