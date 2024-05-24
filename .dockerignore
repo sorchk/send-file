@@ -3,3 +3,8 @@
 .git
 .venv
 .history
+.github
+.data
+fronted/node_modules
+backend/data
+backend/.venv

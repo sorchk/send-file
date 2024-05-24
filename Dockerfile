@@ -1,11 +1,10 @@
-FROM python:3.9.5-slim-buster
-LABEL author="Lan"
-LABEL email="vast@tom.com"
-
-COPY . /app
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo 'Asia/Shanghai' >/etc/timezone
+#FROM python:3.9-slim
+FROM python:3.9-alpine
+MAINTAINER sorc@sction.org
+COPY ./backend/* /app/
+ENV TZ="Asia/Shanghai"
 WORKDIR /app
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && \
+pip install -r requirements.txt
 EXPOSE 12345
 CMD ["python","main.py"]
